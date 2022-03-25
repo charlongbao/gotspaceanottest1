@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>email test</title>
+    <style>
+      /* This is our style for the invalid fields */
+      input:invalid{        border-color: #900;
+        background-color: #FDD;      }
+
+      input:focus:invalid {        outline: none;      }
+
+      /* This is the style of our error messages */
+      .error {
+        width  : 100%;
+        padding: 0;
+
+        font-size: 80%;
+        color: white;
+        background-color: #900;
+        border-radius: 0 0 5px 5px;
+
+        box-sizing: border-box;      }
+
+      .error.active {        padding: 0.3em;      }
+    </style>
+</head>
+
+<body>
+  <form novalidate>
+    <p>
+      <label for="mail">
+        <span>Please enter an email address:</span>
+        <input type="email" id="mail" name="mail" required minlength="8">
+        <span class="error" aria-live="polite"></span>
+      </label>
+    </p>
+    <button>Submit</button>
+  </form>
+  
+  
+
+const email = document.getElementById("mail");
+const form = document.querySelector('#form');
+const input = document.querySelector('#mail');
+const output = document.querySelector('#output');
+  
+const re =  /@u.nus.edu$/;
+
+function testInfo(emailInput) {
+  const ok = re.exec(emailInput.value);
+
+  if (!ok) {
+    output.textContent = `${emailInput.value} isn't a NUS email!`;
+  } else {
+    output.textContent = `Thanks, your email is ${ok[0]}`;
+  }
+}
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  testInfo(input);
+});  
+  
+email.addEventListener("input", function (event) {
+  if (email.validity.typeMismatch) {
+    email.setCustomValidity("I am expecting an e-mail address!");
+    email.reportValidity();
+  } else {
+    email.setCustomValidity("");
+  }
+});
+  
+</body>
+
+</html>
